@@ -2,64 +2,86 @@ package org.tsl.tokenization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class Tokenizer {
-    int cursor;
+    int cursor = 0;
 
-    public Tokenizer() {
-        cursor = 0;
-    }
-
-    public List<Token> Tokenize(String source) {
-        List<Token> tokensList = new ArrayList<>();
+    public List<TokenPair> Tokenize(String source) {
+        List<TokenPair> tokens = new ArrayList<>();
 
         while (cursor < source.length()) {
-            char c = source.charAt(cursor);
 
-            final Token token;
-
-            if (Character.isDigit(c)) {
-                token = number(source);
-            } else {
-                throw new UnsupportedOperationException("");
+            if (tokenizeString(source).ifPresent(tokens::add)) continue;
+            if (optJsonString.isPresent()) {
+                tokens.add(optJsonString.get());
+                continue;
             }
 
-            tokensList.add(token);
-            cursor++;
+            Optional<TokenPair> optJsonNumber = tokenizeNumber(source);
+            if (optJsonNumber.isPresent()) {
+                tokens.add(optJsonNumber.get());
+                continue;
+            }
+
         }
 
-        return tokensList;
+        return tokens;
     }
 
-    public Token number(String source) {
-        char c;
-        int colonCount = 0;
-
-        int start = cursor;
-        do {
-            c = source.charAt(cursor++);
-            if (c == '.') colonCount++;
-        } while ((Character.isDigit(c) || c == '.')
-                && cursor < source.length());
-        int end = cursor;
-
-        if (colonCount > 1) {
-            return new TokenError(source.substring(start, end));
-        } else {
-            return  new Number(source.substring(start, end));
-        }
+    private Optional<TokenPair> tokenizeNumber(String source) {
+        throw new UnsupportedOperationException("TODO");
     }
 
-    public Token stringy(String source) {
-        int start = cursor;
-        do {
-            c = source.charAt(cursor);
-            cursor++;
-        } while (c != '"');
-        int end = cursor;
+    public Optional<TokenPair> tokenizeString(String source) {
 
-        String stringy = source.substring(start, end);
 
-        return new Stringy(stringy);
+        return Optional.of(new TokenPair(Token.STRING, ""));
     }
+
+//    public TokenTest number(String source) {
+//        char c;
+//        int colonCount = 0;
+//
+//        int start = cursor;
+//        do {
+//            c = source.charAt(cursor++);
+//            if (c == '.') colonCount++;
+//        } while ((Character.isDigit(c) || c == '.')
+//                && cursor < source.length());
+//        int end = cursor;
+//
+//        if (colonCount > 1) {
+//            return new TokenError(source.substring(start, end));
+//        } else {
+//            return  new Number(source.substring(start, end));
+//        }
+//    }
+//
+//    public Optional<TokenPair> tokenizeString(String source) {
+//        expect('"', source);
+//        Stringy identifier = identifier(source);
+//        expect('"', source);
+//        return identifier;
+//    }
+//
+//    private Stringy identifier(String source) {
+//        int start = cursor;
+//        char c;
+//
+//        do {
+//            c = source.charAt(cursor);
+//            cursor++;
+//        } while (c != '"');
+//
+//        int end = cursor;
+//
+//        String stringy = source.substring(start, end);
+//
+//        return new Stringy(stringy);
+//    }
+//
+//    private void expect(Character expect, String source) {
+//
+//    }
 }
