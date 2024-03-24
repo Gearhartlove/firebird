@@ -5,6 +5,7 @@ public enum Token {
     NUMBER,
     TRUE,
     FALSE,
+    NULL,
     RIGHT_SQUIGGLY,
     LEFT_SQUIGGLY,
 }

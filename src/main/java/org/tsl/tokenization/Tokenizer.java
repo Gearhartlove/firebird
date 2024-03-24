@@ -64,11 +64,26 @@ public final class Tokenizer {
     }
 
     private Optional<TokenPair> tokenizeNull(String source) {
-        throw new UnsupportedOperationException("TODO");
+        if (source.startsWith("null")) {
+            cursor += "null".length();
+            return Optional.of(new TokenPair(Token.NULL, "null"));
+        }
+
+        return Optional.empty();
     }
 
     private Optional<TokenPair> tokenizeBoolean(String source) {
-        throw new UnsupportedOperationException("TODO");
+        if (source.startsWith("true", cursor)) {
+            cursor += "true".length();
+            return Optional.of(new TokenPair(Token.TRUE, "true"));
+        }
+
+        if (source.startsWith("false", cursor)) {
+            cursor += "false".length();
+            return Optional.of(new TokenPair(Token.FALSE, "false"));
+        }
+
+        return Optional.empty();
     }
 
     private Optional<TokenPair> tokenizeNumber(String source) {
