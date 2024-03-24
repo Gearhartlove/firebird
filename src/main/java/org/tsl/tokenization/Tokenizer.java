@@ -90,8 +90,10 @@ public final class Tokenizer {
         StringBuilder jsonNumber = new StringBuilder();
 
         for (char c : source.substring(cursor).toCharArray()) {
-            cursor++;
-            if (Character.isDigit(c) || JSON_NUMBER_EXTRAS.contains(c)) jsonNumber.append(c);
+            if (Character.isDigit(c) || JSON_NUMBER_EXTRAS.contains(c)) {
+                jsonNumber.append(c);
+                cursor++;
+            }
             else break;
         }
 
