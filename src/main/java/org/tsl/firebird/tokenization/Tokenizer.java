@@ -1,7 +1,6 @@
-package org.tsl.tokenization;
+package org.tsl.firebird.tokenization;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public final class Tokenizer {

@@ -1,11 +1,10 @@
 package tokenization;
 
 import org.junit.jupiter.api.Test;
-import org.tsl.tokenization.Token;
-import org.tsl.tokenization.TokenPair;
-import org.tsl.tokenization.Tokenizer;
+import org.tsl.firebird.tokenization.Token;
+import org.tsl.firebird.tokenization.TokenPair;
+import org.tsl.firebird.tokenization.Tokenizer;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class NumberTokenizationTest {

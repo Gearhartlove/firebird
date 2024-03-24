@@ -1,4 +1,4 @@
-package org.tsl.tokenization;
+package org.tsl.firebird.tokenization;
 
 import java.util.Objects;
 

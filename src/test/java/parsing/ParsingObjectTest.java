@@ -1,10 +1,9 @@
 package parsing;
 
 import org.junit.jupiter.api.Test;
-import org.tsl.parsing.Parser;
-import org.tsl.tokenization.Tokenizer;
+import org.tsl.firebird.parsing.Parser;
+import org.tsl.firebird.tokenization.Tokenizer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ParsingObjectTest {

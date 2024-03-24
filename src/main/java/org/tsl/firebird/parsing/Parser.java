@@ -1,11 +1,10 @@
-package org.tsl.parsing;
+package org.tsl.firebird.parsing;
 
-import org.tsl.tokenization.Token;
-import org.tsl.tokenization.TokenPair;
+import org.tsl.firebird.tokenization.TokenPair;
+import org.tsl.firebird.tokenization.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Parser {
 
@@ -17,9 +16,8 @@ public class Parser {
 
     private ArrayList<Object> parseArray() {
         ArrayList<Object> jsonArray = new ArrayList<Object>();
-        var next = tokens.removeFirst();
 
-        if (next.kind() == Token.RIGHT_BRACKET) return jsonArray;
+        if (tokens.getFirst().kind() == Token.RIGHT_BRACKET) return jsonArray;
 
         while (true) {
             var json = parse();
@@ -28,7 +26,6 @@ public class Parser {
             var next2 = tokens.removeFirst();
             if (next2.kind() == Token.RIGHT_BRACKET) return jsonArray;
             else if (next2.kind() != Token.COMMA) throw new RuntimeException("Expected comma after object in array");
-            else tokens.removeFirst();
         }
 
         // throw new RuntimeException("Expected end-of-array bracket");
