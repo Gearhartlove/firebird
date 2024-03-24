@@ -7,6 +7,7 @@ import java.util.Optional;
 public final class Tokenizer {
     ArrayList<Character> JSON_WHITESPACE;
     ArrayList<Character> JSON_SYNTAX;
+    ArrayList<Character> JSON_NUMBER_EXTRAS;
     int cursor = 0;
 
     Tokenizer() {
@@ -22,6 +23,11 @@ public final class Tokenizer {
         this.JSON_SYNTAX.add(']');
         this.JSON_SYNTAX.add('[');
         this.JSON_SYNTAX.add(',');
+
+        this.JSON_NUMBER_EXTRAS = new ArrayList<Character>();
+        this.JSON_NUMBER_EXTRAS.add('-');
+        this.JSON_NUMBER_EXTRAS.add('e');
+        this.JSON_NUMBER_EXTRAS.add('.');
     }
 
     public List<TokenPair> Tokenize(String source) {
@@ -66,7 +72,17 @@ public final class Tokenizer {
     }
 
     private Optional<TokenPair> tokenizeNumber(String source) {
-        throw new UnsupportedOperationException("TODO");
+        StringBuilder jsonNumber = new StringBuilder();
+
+        for (char c : source.substring(cursor).toCharArray()) {
+            cursor++;
+            if (Character.isDigit(c) || JSON_NUMBER_EXTRAS.contains(c)) jsonNumber.append(c);
+            else break;
+        }
+
+        if (jsonNumber.isEmpty()) return Optional.empty();
+
+        return Optional.of(new TokenPair(Token.NUMBER, jsonNumber.toString()));
     }
 
     private Optional<TokenPair> tokenizeString(String source) {
@@ -75,7 +91,8 @@ public final class Tokenizer {
         if (source.charAt(cursor) == '"') cursor++;
         else return Optional.empty();
 
-        for (char c : source.substring(cursor++).toCharArray()) {
+        for (char c : source.substring(cursor).toCharArray()) {
+            cursor++;
             if (c == '"') return Optional.of(new TokenPair(Token.STRING, jsonString.toString()));
             else jsonString.append(c);
         }
