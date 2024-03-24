@@ -10,7 +10,7 @@ public final class Tokenizer {
     ArrayList<Character> JSON_NUMBER_EXTRAS;
     int cursor = 0;
 
-    Tokenizer() {
+    public Tokenizer() {
         this.JSON_WHITESPACE = new ArrayList<Character>();
         this.JSON_WHITESPACE.add(' ');
         this.JSON_WHITESPACE.add('\t');
@@ -30,7 +30,7 @@ public final class Tokenizer {
         this.JSON_NUMBER_EXTRAS.add('.');
     }
 
-    public List<TokenPair> Tokenize(String source) {
+    public List<TokenPair> tokenize(String source) {
         List<TokenPair> tokens = new ArrayList<>();
 
         while (cursor < source.length()) {
