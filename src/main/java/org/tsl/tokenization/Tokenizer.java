@@ -23,6 +23,7 @@ public final class Tokenizer {
         this.JSON_SYNTAX.add(']');
         this.JSON_SYNTAX.add('[');
         this.JSON_SYNTAX.add(',');
+        this.JSON_SYNTAX.add(':');
 
         this.JSON_NUMBER_EXTRAS = new ArrayList<Character>();
         this.JSON_NUMBER_EXTRAS.add('-');
@@ -46,15 +47,20 @@ public final class Tokenizer {
             var optJsonNull = tokenizeNull(source);
             if (optJsonNull.map(tokens::add).orElse(false)) continue;
 
-            if (JSON_WHITESPACE.contains(source.charAt(0))) {
+            if (JSON_WHITESPACE.contains(source.charAt(cursor))) {
                 cursor++;
             }
-            else if (JSON_SYNTAX.contains(source.charAt(0))) {
-                var jsonSyntax = switch (source.charAt(0)) {
+            else if (JSON_SYNTAX.contains(source.charAt(cursor))) {
+                var jsonSyntax = switch (source.charAt(cursor)) {
                     case '{' -> new TokenPair(Token.LEFT_SQUIGGLY, "{");
                     case '}' -> new TokenPair(Token.RIGHT_SQUIGGLY, "}");
-                    default -> throw new IllegalStateException("Unexpected value: " + source.charAt(0));
+                    case '[' -> new TokenPair(Token.LEFT_BRACKET, "[");
+                    case ']' -> new TokenPair(Token.RIGHT_BRACKET, "]");
+                    case ',' -> new TokenPair(Token.COMMA, ",");
+                    case ':' -> new TokenPair(Token.COLON, ":");
+                    default -> throw new IllegalStateException("Unexpected value: " + source.charAt(cursor));
                 };
+                cursor++;
                 tokens.add(jsonSyntax);
             }
 

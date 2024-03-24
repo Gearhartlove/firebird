@@ -8,4 +8,8 @@ public enum Token {
     NULL,
     RIGHT_SQUIGGLY,
     LEFT_SQUIGGLY,
+    RIGHT_BRACKET,
+    LEFT_BRACKET,
+    COMMA,
+    COLON,
 }
