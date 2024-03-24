@@ -31,8 +31,8 @@ public final class Tokenizer {
         this.JSON_NUMBER_EXTRAS.add('.');
     }
 
-    public List<TokenPair> tokenize(String source) {
-        List<TokenPair> tokens = new ArrayList<>();
+    public ArrayList<TokenPair> tokenize(String source) {
+        ArrayList<TokenPair> tokens = new ArrayList<>();
 
         while (cursor < source.length()) {
             var optJsonString = tokenizeString(source);
