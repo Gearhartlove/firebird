@@ -9,11 +9,6 @@ import java.util.List;
 
 public class TokenizationTest {
 
-    /*
-    assert_equal(lex('{"foo": [1, 2, {"bar": 2}]}'),
-             ['{', 'foo', ':', '[', 1, ',', 2, ',', '{', 'bar', ':', 2, '}', ']', '}'])
-     */
-
     Tokenizer tokenizer = new Tokenizer();
 
     @Test
