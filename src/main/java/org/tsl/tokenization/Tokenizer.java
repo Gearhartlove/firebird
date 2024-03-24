@@ -49,17 +49,8 @@ public final class Tokenizer {
 
             if (JSON_WHITESPACE.contains(source.charAt(cursor))) {
                 cursor++;
-            }
-            else if (JSON_SYNTAX.contains(source.charAt(cursor))) {
-                var jsonSyntax = switch (source.charAt(cursor)) {
-                    case '{' -> new TokenPair(Token.LEFT_SQUIGGLY, "{");
-                    case '}' -> new TokenPair(Token.RIGHT_SQUIGGLY, "}");
-                    case '[' -> new TokenPair(Token.LEFT_BRACKET, "[");
-                    case ']' -> new TokenPair(Token.RIGHT_BRACKET, "]");
-                    case ',' -> new TokenPair(Token.COMMA, ",");
-                    case ':' -> new TokenPair(Token.COLON, ":");
-                    default -> throw new IllegalStateException("Unexpected value: " + source.charAt(cursor));
-                };
+            } else if (JSON_SYNTAX.contains(source.charAt(cursor))) {
+                var jsonSyntax = tokenizeSyntax(source);
                 cursor++;
                 tokens.add(jsonSyntax);
             }
@@ -67,6 +58,18 @@ public final class Tokenizer {
         }
 
         return tokens;
+    }
+
+    private TokenPair tokenizeSyntax(String source) {
+        return switch (source.charAt(cursor)) {
+            case '{' -> new TokenPair(Token.LEFT_SQUIGGLY, "{");
+            case '}' -> new TokenPair(Token.RIGHT_SQUIGGLY, "}");
+            case '[' -> new TokenPair(Token.LEFT_BRACKET, "[");
+            case ']' -> new TokenPair(Token.RIGHT_BRACKET, "]");
+            case ',' -> new TokenPair(Token.COMMA, ",");
+            case ':' -> new TokenPair(Token.COLON, ":");
+            default -> throw new IllegalStateException("Unexpected value: " + source.charAt(cursor));
+        };
     }
 
     private Optional<TokenPair> tokenizeNull(String source) {
@@ -99,8 +102,7 @@ public final class Tokenizer {
             if (Character.isDigit(c) || JSON_NUMBER_EXTRAS.contains(c)) {
                 jsonNumber.append(c);
                 cursor++;
-            }
-            else break;
+            } else break;
         }
 
         if (jsonNumber.isEmpty()) return Optional.empty();
