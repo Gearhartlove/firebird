@@ -3,7 +3,7 @@ package org.tsl.firebird;
 import org.tsl.firebird.parsing.Parser;
 import org.tsl.firebird.tokenization.Tokenizer;
 
-public class firebird {
+public class Firebird {
 
     Tokenizer tokenizer = new Tokenizer();
 
